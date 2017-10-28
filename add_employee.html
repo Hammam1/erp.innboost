@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="/amd/addemployee/views/css/add_employee.css">
+	<script src="amd/calendar/views/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="amd/calendar/views/js/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="amd/addemployee/views/js/add_employee.js" type="text/javascript"></script>
+</head>
+<body>  
+<form id="employee-form" name="employeeForm" method="post" action="amd/addemployee/control.php?a=addemployee">
+<input type="hidden" name="a" value="addemployee" />
+<input id='firstName' type="text" class="form-text" placeholder="First Name" name="firstName"/>*<br>
+<input id='lastName' type="text" class="form-text" placeholder="Last Name" name="lastName"/>*<br>
+<input id='Username' type="text" class="form-text" placeholder="Username" name="user"/>*<br>
+Role <select id='Role' name="Role" class="form-text">
+<?php
+require_once"amd/php/dbconnect.php";
+$r = $con->query("select * from `role`");
+$roles = array();
+while ($row = mysql_fetch_array($r)){
+	$roles[$row['rid']]=$row['name'];
+}
+
+for ($i = 1; $i <= count($roles); $i++) {
+    if(!($roles[$i] == 'authenticated user' ||  $roles[$i] == 'administrator' || $roles[$i] == 'anonymous user'))
+    echo "<option id='$i'>$roles[$i]</option>";
+}
+?>  
+</select><br>
+<input id='Password' type="password" class="form-text" placeholder="Password" name="pass"/>*<br>
+<input id='Confirm_Password' type="password" class="form-text" placeholder="Confirm Password" name="passc"/>*<br>
+<input  type="submit"/>* Required
+</form>
+</body>
+</html> 
